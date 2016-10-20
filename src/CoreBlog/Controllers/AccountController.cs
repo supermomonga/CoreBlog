@@ -11,6 +11,7 @@ using Microsoft.Extensions.Logging;
 using CoreBlog.Models;
 using CoreBlog.Models.AccountViewModels;
 using CoreBlog.Services;
+using CoreBlog.Data;
 
 namespace CoreBlog.Controllers
 {
@@ -109,6 +110,13 @@ namespace CoreBlog.Controllers
                 var result = await _userManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {
+                    // Make this user to Administrator if there is not any administrators.
+                    var administrators = await _userManager.GetUsersInRoleAsync("Administrator");
+                    if (!administrators.Any<ApplicationUser>())
+                    {
+                        await _userManager.AddToRoleAsync(user, "Administrator");
+                    }
+
                     // For more information on how to enable account confirmation and password reset please visit http://go.microsoft.com/fwlink/?LinkID=532713
                     // Send an email with this link
                     //var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);

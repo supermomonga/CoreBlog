@@ -1,4 +1,4 @@
-﻿{
+{
   "userSecretsId": "aspnet-CoreBlog-184c5be2-c731-414a-b495-2bde0897a170",
 
   "dependencies": {
@@ -43,7 +43,9 @@
     "Microsoft.VisualStudio.Web.CodeGenerators.Mvc": {
       "version": "1.0.0-preview2-final",
       "type": "build"
-    }
+    },
+    "AspNet.Security.OAuth.GitHub": "1.0.0-beta1-final",
+    "Microsoft.Extensions.Caching.Abstractions": "1.0.0"
   },
 
   "tools": {
@@ -57,7 +59,9 @@
       "imports": [
         "portable-net45+win8"
       ]
-    }
+    },
+    "Microsoft.Extensions.SecretManager.Tools": "1.0.0-preview2-final",
+    "Microsoft.DotNet.Watcher.Tools": "1.0.0-preview2-final"
   },
 
   "frameworks": {
