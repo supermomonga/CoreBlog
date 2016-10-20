@@ -12,6 +12,7 @@ namespace CoreBlog.Models
         public int Id { get; set; }
 
         [Required]
+        [MinLength(5)]
         public string Title { get; set; }
 
         [Required]

@@ -7,22 +7,28 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using CoreBlog.Data;
 using CoreBlog.Models;
+using Microsoft.AspNetCore.Identity;
 
 namespace CoreBlog.Controllers
 {
     public class ArticlesController : Controller
     {
+        private readonly UserManager<ApplicationUser> _userManager;
         private readonly ApplicationDbContext _context;
 
-        public ArticlesController(ApplicationDbContext context)
+        public ArticlesController(
+            UserManager<ApplicationUser> userManager,
+            ApplicationDbContext context
+            )
         {
+            _userManager = userManager;
             _context = context;    
         }
 
         // GET: Articles
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Articles.ToListAsync());
+            return View(await _context.Articles.Include(a => a.Author).ToListAsync());
         }
 
         // GET: Articles/Details/5
@@ -53,8 +59,13 @@ namespace CoreBlog.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Content,IsPublished,PostedAt,Title")] Article article)
+        public async Task<IActionResult> Create([Bind("Content,IsPublished,PostedAt,Title")] Article article)
         {
+            ModelState.Clear();
+            var user = await _userManager.GetUserAsync(HttpContext.User);
+            var profile = _context.Users.Where(u => u.Id == user.Id).Include(u => u.Profile).Single().Profile;
+            article.Author = profile;
+            await TryUpdateModelAsync(article);
             if (ModelState.IsValid)
             {
                 _context.Add(article);

@@ -14,6 +14,7 @@ using CoreBlog.Models;
 using CoreBlog.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.HttpOverrides;
+using CoreBlog.Data.Seeds;
 
 namespace CoreBlog
 {
@@ -110,6 +111,8 @@ namespace CoreBlog
                     name: "default",
                     template: "{controller=Home}/{action=Index}/{id?}");
             });
+
+            SeedData.Initialize(app.ApplicationServices);
         }
     }
 }

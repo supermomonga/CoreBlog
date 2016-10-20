@@ -29,6 +29,10 @@ namespace CoreBlog.Data
                 .HasOne(u => u.Profile)
                 .WithOne(p => p.User)
                 .HasForeignKey<UserProfile>(p => p.UserId);
+
+            builder.Entity<UserProfile>()
+                .HasMany(p => p.Articles)
+                .WithOne(p => p.Author);
         }
 
         public DbSet<ApplicationUser> Users { get; set; }

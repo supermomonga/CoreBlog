@@ -22,7 +22,7 @@ namespace CoreBlog.Controllers
         // GET: ApplicationUsers
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Users.ToListAsync());
+            return View(await _context.Users.Include(u => u.Profile).ToListAsync());
         }
 
         // GET: ApplicationUsers/Details/5

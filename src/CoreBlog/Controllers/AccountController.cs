@@ -219,6 +219,13 @@ namespace CoreBlog.Controllers
                 var result = await _userManager.CreateAsync(user);
                 if (result.Succeeded)
                 {
+                    // Make this user to Administrator if there is not any administrators.
+                    var administrators = await _userManager.GetUsersInRoleAsync("Administrator");
+                    if (!administrators.Any<ApplicationUser>())
+                    {
+                        await _userManager.AddToRoleAsync(user, "Administrator");
+                    }
+
                     result = await _userManager.AddLoginAsync(user, info);
                     if (result.Succeeded)
                     {
