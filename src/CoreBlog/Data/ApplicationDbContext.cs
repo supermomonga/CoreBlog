@@ -32,7 +32,7 @@ namespace CoreBlog.Data
         }
 
         public DbSet<ApplicationUser> Users { get; set; }
-        public DbSet<UserProfile> UserProfiles { get; set; }
+        public DbSet<UserProfile> Profiles { get; set; }
         public DbSet<Article> Articles { get; set; }
     }
 }
