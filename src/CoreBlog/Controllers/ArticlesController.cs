@@ -8,23 +8,24 @@ using Microsoft.EntityFrameworkCore;
 using CoreBlog.Data;
 using CoreBlog.Models;
 using Microsoft.AspNetCore.Identity;
+using CoreBlog.Services;
+using Microsoft.Extensions.Logging;
 
 namespace CoreBlog.Controllers
 {
-    public class ArticlesController : Controller
+    public class ArticlesController : ApplicationController
     {
-        private readonly UserManager<ApplicationUser> _userManager;
-        private readonly ApplicationDbContext _context;
-
+        protected readonly ILogger _logger;
         public ArticlesController(
             UserManager<ApplicationUser> userManager,
-            ApplicationDbContext context
-            )
+            SignInManager<ApplicationUser> signInManager,
+            IEmailSender emailSender,
+            ISmsSender smsSender,
+            ILoggerFactory loggerFactory,
+            ApplicationDbContext context) : base(userManager, signInManager, emailSender, smsSender, context)
         {
-            _userManager = userManager;
-            _context = context;    
+            _logger = loggerFactory.CreateLogger<ArticlesController>();
         }
-
         // GET: Articles
         public async Task<IActionResult> Index()
         {
@@ -51,7 +52,8 @@ namespace CoreBlog.Controllers
         // GET: Articles/Create
         public IActionResult Create()
         {
-            return View();
+            return View(new Article {
+            });
         }
 
         // POST: Articles/Create
@@ -62,8 +64,7 @@ namespace CoreBlog.Controllers
         public async Task<IActionResult> Create([Bind("Content,IsPublished,PostedAt,Title")] Article article)
         {
             ModelState.Clear();
-            var user = await _userManager.GetUserAsync(HttpContext.User);
-            var profile = _context.Users.Where(u => u.Id == user.Id).Include(u => u.Profile).Single().Profile;
+            var profile = await CurrentUserProfile();
             article.Author = profile;
             await TryUpdateModelAsync(article);
             if (ModelState.IsValid)

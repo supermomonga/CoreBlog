@@ -7,18 +7,25 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using CoreBlog.Data;
 using CoreBlog.Models;
+using Microsoft.Extensions.Logging;
+using Microsoft.AspNetCore.Identity;
+using CoreBlog.Services;
 
 namespace CoreBlog.Controllers
 {
-    public class UserProfilesController : Controller
+    public class UserProfilesController : ApplicationController
     {
-        private readonly ApplicationDbContext _context;
-
-        public UserProfilesController(ApplicationDbContext context)
+        protected readonly ILogger _logger;
+        public UserProfilesController(
+            UserManager<ApplicationUser> userManager,
+            SignInManager<ApplicationUser> signInManager,
+            IEmailSender emailSender,
+            ISmsSender smsSender,
+            ILoggerFactory loggerFactory,
+            ApplicationDbContext context) : base(userManager, signInManager, emailSender, smsSender, context)
         {
-            _context = context;    
+            _logger = loggerFactory.CreateLogger<UserProfilesController>();
         }
-
         // GET: UserProfiles
         public async Task<IActionResult> Index()
         {

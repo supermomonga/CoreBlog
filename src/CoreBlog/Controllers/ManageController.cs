@@ -9,32 +9,24 @@ using Microsoft.Extensions.Logging;
 using CoreBlog.Models;
 using CoreBlog.Models.ManageViewModels;
 using CoreBlog.Services;
+using CoreBlog.Data;
 
 namespace CoreBlog.Controllers
 {
     [Authorize]
-    public class ManageController : Controller
+    public class ManageController : ApplicationController
     {
-        private readonly UserManager<ApplicationUser> _userManager;
-        private readonly SignInManager<ApplicationUser> _signInManager;
-        private readonly IEmailSender _emailSender;
-        private readonly ISmsSender _smsSender;
-        private readonly ILogger _logger;
-
+        protected readonly ILogger _logger;
         public ManageController(
-        UserManager<ApplicationUser> userManager,
-        SignInManager<ApplicationUser> signInManager,
-        IEmailSender emailSender,
-        ISmsSender smsSender,
-        ILoggerFactory loggerFactory)
+            UserManager<ApplicationUser> userManager,
+            SignInManager<ApplicationUser> signInManager,
+            IEmailSender emailSender,
+            ISmsSender smsSender,
+            ILoggerFactory loggerFactory,
+            ApplicationDbContext context) : base(userManager, signInManager, emailSender, smsSender, context)
         {
-            _userManager = userManager;
-            _signInManager = signInManager;
-            _emailSender = emailSender;
-            _smsSender = smsSender;
             _logger = loggerFactory.CreateLogger<ManageController>();
         }
-
         //
         // GET: /Manage/Index
         [HttpGet]

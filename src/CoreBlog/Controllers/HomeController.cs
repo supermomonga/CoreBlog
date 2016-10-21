@@ -2,12 +2,28 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using CoreBlog.Data;
+using CoreBlog.Models;
+using CoreBlog.Services;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 
 namespace CoreBlog.Controllers
 {
-    public class HomeController : Controller
+    public class HomeController : ApplicationController
     {
+        protected readonly ILogger _logger;
+        public HomeController(
+            UserManager<ApplicationUser> userManager,
+            SignInManager<ApplicationUser> signInManager,
+            IEmailSender emailSender,
+            ISmsSender smsSender,
+            ILoggerFactory loggerFactory,
+            ApplicationDbContext context) : base(userManager, signInManager, emailSender, smsSender, context)
+        {
+            _logger = loggerFactory.CreateLogger<HomeController>();
+        }
         public IActionResult Index()
         {
             return View();
