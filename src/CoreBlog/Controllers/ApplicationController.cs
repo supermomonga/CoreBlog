@@ -14,11 +14,11 @@ namespace CoreBlog.Controllers
 {
     public class ApplicationController : Controller
     {
-        protected readonly ApplicationDbContext _context;
-        protected readonly UserManager<ApplicationUser> _userManager;
-        protected readonly SignInManager<ApplicationUser> _signInManager;
-        protected readonly IEmailSender _emailSender;
-        protected readonly ISmsSender _smsSender;
+        internal readonly ApplicationDbContext _context;
+        internal readonly UserManager<ApplicationUser> _userManager;
+        internal readonly SignInManager<ApplicationUser> _signInManager;
+        internal readonly IEmailSender _emailSender;
+        internal readonly ISmsSender _smsSender;
 
         public ApplicationController(
             UserManager<ApplicationUser> userManager,
