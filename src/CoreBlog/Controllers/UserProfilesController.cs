@@ -129,38 +129,5 @@ namespace CoreBlog.Controllers
             ViewData["UserId"] = new SelectList(_context.Users, "Id", "Id", userProfile.UserId);
             return View(userProfile);
         }
-
-        // GET: UserProfiles/Delete/5
-        public async Task<IActionResult> Delete(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var userProfile = await _context.Profiles.SingleOrDefaultAsync(m => m.Id == id);
-            if (userProfile == null)
-            {
-                return NotFound();
-            }
-
-            return View(userProfile);
-        }
-
-        // POST: UserProfiles/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
-        {
-            var userProfile = await _context.Profiles.SingleOrDefaultAsync(m => m.Id == id);
-            _context.Profiles.Remove(userProfile);
-            await _context.SaveChangesAsync();
-            return RedirectToAction("Index");
-        }
-
-        private bool UserProfileExists(int id)
-        {
-            return _context.Profiles.Any(e => e.Id == id);
-        }
     }
 }
