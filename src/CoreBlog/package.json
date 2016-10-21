@@ -1,0 +1,28 @@
+{
+  "name": "coreblog",
+  "version": "1.0.0",
+  "license": "MIT",
+  "author": "supermomonga",
+  "description": "coreblog",
+  "main": "index.js",
+  "dependencies": {
+    "av-ts": "^0.3.0",
+    "vue": "^2.0.3",
+    "webpack": "^1.13.2"
+  },
+  "devDependencies": {
+    "ts-loader": "^0.9.5",
+    "typescript": "^2.0.3",
+    "typings": "^1.4.0",
+    "vue-loader": "^9.7.0",
+    "vue-ts-loader": "0.0.3",
+    "webpack": "^1.13.2",
+    "webpack-dev-server": "^1.16.2"
+  },
+  "scripts": {
+    "postinstall": "typings install",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "webpack --progress --colors --watch --config ./webpack.config.dev.js",
+    "build.prod": "webpack --config ./webpack.config.prod.js"
+  }
+}
