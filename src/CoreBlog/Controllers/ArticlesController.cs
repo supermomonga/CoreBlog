@@ -51,6 +51,7 @@ namespace CoreBlog.Controllers
         }
 
         // GET: Articles/Create
+        [Authorize]
         public IActionResult Create()
         {
             return View(new Article {
@@ -62,6 +63,7 @@ namespace CoreBlog.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize]
         public async Task<IActionResult> Create([Bind("Content,IsPublished,PostedAt,Title")] Article article)
         {
             ModelState.Clear();
@@ -78,6 +80,7 @@ namespace CoreBlog.Controllers
         }
 
         // GET: Articles/Edit/5
+        [Authorize]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -98,6 +101,7 @@ namespace CoreBlog.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize]
         public async Task<IActionResult> Edit(int id, [Bind("Id,Content,IsPublished,PostedAt,Title")] Article article)
         {
             if (id != article.Id)
@@ -129,6 +133,7 @@ namespace CoreBlog.Controllers
         }
 
         // GET: Articles/Delete/5
+        [Authorize]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -148,6 +153,7 @@ namespace CoreBlog.Controllers
         // POST: Articles/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
+        [Authorize]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var article = await _context.Articles.SingleOrDefaultAsync(m => m.Id == id);

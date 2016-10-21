@@ -10,9 +10,11 @@ using CoreBlog.Models;
 using CoreBlog.Services;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Logging;
+using Microsoft.AspNetCore.Authorization;
 
 namespace CoreBlog.Controllers
 {
+    [Authorize(Roles = "Administrator")]
     public class ApplicationUsersController : ApplicationController
     {
         protected readonly ILogger _logger;

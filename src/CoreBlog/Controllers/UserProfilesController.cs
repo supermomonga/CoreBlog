@@ -10,6 +10,7 @@ using CoreBlog.Models;
 using Microsoft.Extensions.Logging;
 using Microsoft.AspNetCore.Identity;
 using CoreBlog.Services;
+using Microsoft.AspNetCore.Authorization;
 
 namespace CoreBlog.Controllers
 {
@@ -75,6 +76,7 @@ namespace CoreBlog.Controllers
         }
 
         // GET: UserProfiles/Edit/5
+        [Authorize]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -96,6 +98,7 @@ namespace CoreBlog.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize]
         public async Task<IActionResult> Edit(int id, [Bind("Id,Name,ScreenName,UserId")] UserProfile userProfile)
         {
             if (id != userProfile.Id)
