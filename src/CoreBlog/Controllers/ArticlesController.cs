@@ -10,6 +10,7 @@ using CoreBlog.Models;
 using Microsoft.AspNetCore.Identity;
 using CoreBlog.Services;
 using Microsoft.Extensions.Logging;
+using Microsoft.AspNetCore.Authorization;
 
 namespace CoreBlog.Controllers
 {

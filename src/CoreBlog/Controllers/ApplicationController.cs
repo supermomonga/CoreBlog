@@ -36,7 +36,7 @@ namespace CoreBlog.Controllers
         protected async Task<ApplicationUser> CurrentUser()
         {
             var user = await _userManager.GetUserAsync(HttpContext.User);
-            var userWithProfile = _context.Users.Where(u => u.Id == user.Id).Include(u => u.Profile).Single();
+            var userWithProfile = await _context.Users.Include(u => u.Profile).SingleAsync(u => u.Id == user.Id);
             return userWithProfile;
         }
 
