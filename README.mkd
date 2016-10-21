@@ -1,0 +1,13 @@
+﻿
+# CoreBlog(WIP)
+
+Developer friendly blogging platform written in C# for .NET Core CLR.
+
+## Features
+
+- GitHub flavored markdown based blogging
+
+
+## License
+
+MIT License
