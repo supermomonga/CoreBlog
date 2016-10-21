@@ -19,8 +19,23 @@ namespace CoreBlog.Models
         [Column(TypeName = "text")]
         public string Content { get; set; }
 
+        private DateTime _PostedAt;
         [Required]
-        public DateTime PostedAt { get; set; }
+        public DateTime PostedAt
+        {
+            get
+            {
+                if(_PostedAt.Equals(DateTime.MinValue))
+                {
+                    _PostedAt = DateTime.Now;
+                }
+                return _PostedAt;
+            }
+            set
+            {
+                _PostedAt = value;
+            }
+        }
 
         [Required]
         public UserProfile Author { get; set; }

@@ -9,6 +9,7 @@
     "noImplicitAny": false
   },
   "files": [
+    "./typings/globals/marked/index.d.ts",
     "./typings/globals/vue/index.d.ts",
     "./typings/globals/es6-promise/index.d.ts",
     "./Scripts/app.ts"
