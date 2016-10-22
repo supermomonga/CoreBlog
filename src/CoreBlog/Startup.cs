@@ -103,11 +103,15 @@ namespace CoreBlog
 
             app.UseIdentity();
 
-            app.UseGitHubAuthentication(options =>
+            if(! string.IsNullOrEmpty(Configuration["Authentication:GitHub:AppId"]) &&
+                ! string.IsNullOrEmpty(Configuration["Authentication:GitHub:AppSecret"]))
             {
-                options.ClientId = Configuration["Authentication:GitHub:AppId"];
-                options.ClientSecret = Configuration["Authentication:GitHub:AppSecret"];
-            });
+                app.UseGitHubAuthentication(options =>
+                {
+                    options.ClientId = Configuration["Authentication:GitHub:AppId"];
+                    options.ClientSecret = Configuration["Authentication:GitHub:AppSecret"];
+                });
+            }
 
             // Add external authentication middleware below. To configure them please see http://go.microsoft.com/fwlink/?LinkID=532715
 
