@@ -21,7 +21,6 @@ namespace CoreBlog.Policies
             OwnerRequirement<TModel> requirement,
             TModel resource)
         {
-            context.Succeed(requirement);
             var user = _userManager.GetUserAsync(context.User).GetAwaiter().GetResult();
             var res = requirement.IsOwner(resource, user);
             if(res)

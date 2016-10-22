@@ -11,6 +11,7 @@ using Microsoft.AspNetCore.Identity;
 using CoreBlog.Services;
 using Microsoft.Extensions.Logging;
 using Microsoft.AspNetCore.Authorization;
+using CoreBlog.Policies;
 
 namespace CoreBlog.Controllers
 {
@@ -35,7 +36,7 @@ namespace CoreBlog.Controllers
         }
 
         // GET: Articles/Details/5
-        [Authorize(Policy="OwnedArticle")]
+        [Authorize]
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -43,13 +44,20 @@ namespace CoreBlog.Controllers
                 return NotFound();
             }
 
-            var article = await _context.Articles.SingleOrDefaultAsync(m => m.Id == id);
+            var article = await _context.Articles.Include(a => a.Author.User).SingleOrDefaultAsync(m => m.Id == id);
             if (article == null)
             {
                 return NotFound();
             }
 
-            return View(article);
+            if(await _authorizationService.AuthorizeAsync(User, article, Authorities.Article))
+            {
+                return View(article);
+            }
+            else
+            {
+                return new ChallengeResult();
+            }
         }
 
         // GET: Articles/Create
