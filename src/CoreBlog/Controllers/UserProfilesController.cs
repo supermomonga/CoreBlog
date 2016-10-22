@@ -23,7 +23,8 @@ namespace CoreBlog.Controllers
             IEmailSender emailSender,
             ISmsSender smsSender,
             ILoggerFactory loggerFactory,
-            ApplicationDbContext context) : base(userManager, signInManager, emailSender, smsSender, context)
+            IAuthorizationService authorizationService,
+            ApplicationDbContext context) : base(userManager, signInManager, emailSender, smsSender, authorizationService, context)
         {
             _logger = loggerFactory.CreateLogger<UserProfilesController>();
         }
@@ -128,6 +129,11 @@ namespace CoreBlog.Controllers
             }
             ViewData["UserId"] = new SelectList(_context.Users, "Id", "Id", userProfile.UserId);
             return View(userProfile);
+        }
+
+        private bool UserProfileExists(int id)
+        {
+            return _context.Profiles.Any(e => e.Id == id);
         }
     }
 }

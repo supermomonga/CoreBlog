@@ -15,6 +15,8 @@ using CoreBlog.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.HttpOverrides;
 using CoreBlog.Data.Seeds;
+using Microsoft.AspNetCore.Authorization;
+using CoreBlog.Policies;
 
 namespace CoreBlog
 {
@@ -64,7 +66,12 @@ namespace CoreBlog
             services.AddAuthorization(options =>
             {
                 options.AddPolicy("RequireAdministratorRole", policy => policy.RequireRole("Administrator"));
+                options.AddPolicy("OwnedArticle", policy => policy.Requirements.Add(
+                    new OwnerRequirement<Article>(
+                        (Article a, ApplicationUser u) => a.Author.User.Id == u.Id)));
             });
+
+            services.AddSingleton<IAuthorizationHandler, OwnerHandler<Article>>();
 
             // Add application services.
             services.AddTransient<IEmailSender, AuthMessageSender>();

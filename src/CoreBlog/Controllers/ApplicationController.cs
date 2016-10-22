@@ -9,6 +9,7 @@ using CoreBlog.Services;
 using Microsoft.Extensions.Logging;
 using CoreBlog.Data;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Authorization;
 
 namespace CoreBlog.Controllers
 {
@@ -19,18 +20,22 @@ namespace CoreBlog.Controllers
         internal readonly SignInManager<ApplicationUser> _signInManager;
         internal readonly IEmailSender _emailSender;
         internal readonly ISmsSender _smsSender;
+        internal readonly IAuthorizationService _authorizationService;
 
         public ApplicationController(
             UserManager<ApplicationUser> userManager,
             SignInManager<ApplicationUser> signInManager,
             IEmailSender emailSender,
             ISmsSender smsSender,
+            IAuthorizationService authorizationService,
             ApplicationDbContext context)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _emailSender = emailSender;
             _smsSender = smsSender;
+            _authorizationService = authorizationService;
+            _context = context;
         }
 
         protected async Task<ApplicationUser> CurrentUser()

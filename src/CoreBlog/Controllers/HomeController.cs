@@ -8,6 +8,7 @@ using CoreBlog.Services;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using Microsoft.AspNetCore.Authorization;
 
 namespace CoreBlog.Controllers
 {
@@ -20,7 +21,8 @@ namespace CoreBlog.Controllers
             IEmailSender emailSender,
             ISmsSender smsSender,
             ILoggerFactory loggerFactory,
-            ApplicationDbContext context) : base(userManager, signInManager, emailSender, smsSender, context)
+            IAuthorizationService authorizationService,
+            ApplicationDbContext context) : base(userManager, signInManager, emailSender, smsSender, authorizationService, context)
         {
             _logger = loggerFactory.CreateLogger<HomeController>();
         }

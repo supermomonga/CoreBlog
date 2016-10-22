@@ -24,7 +24,8 @@ namespace CoreBlog.Controllers
             IEmailSender emailSender,
             ISmsSender smsSender,
             ILoggerFactory loggerFactory,
-            ApplicationDbContext context) : base(userManager, signInManager, emailSender, smsSender, context)
+            IAuthorizationService authorizationService,
+            ApplicationDbContext context) : base(userManager, signInManager, emailSender, smsSender, authorizationService, context)
         {
             _logger = loggerFactory.CreateLogger<ApplicationUsersController>();
         }

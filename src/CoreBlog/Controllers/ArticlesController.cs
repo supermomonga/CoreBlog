@@ -23,7 +23,8 @@ namespace CoreBlog.Controllers
             IEmailSender emailSender,
             ISmsSender smsSender,
             ILoggerFactory loggerFactory,
-            ApplicationDbContext context) : base(userManager, signInManager, emailSender, smsSender, context)
+            IAuthorizationService authorizationService,
+            ApplicationDbContext context) : base(userManager, signInManager, emailSender, smsSender, authorizationService, context)
         {
             _logger = loggerFactory.CreateLogger<ArticlesController>();
         }
@@ -34,6 +35,7 @@ namespace CoreBlog.Controllers
         }
 
         // GET: Articles/Details/5
+        [Authorize(Policy="OwnedArticle")]
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
