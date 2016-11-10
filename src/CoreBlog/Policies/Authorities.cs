@@ -8,13 +8,13 @@ namespace CoreBlog.Policies
 {
     public class Authorities
     {
-        public static OwnerRequirement<Article> Article =
-            new OwnerRequirement<Article>((Article a, ApplicationUser u) => a.Author.User.Id == u.Id);
+        public static OwnerRequirement<Article, ApplicationUser> Article =
+            new OwnerRequirement<Article, ApplicationUser>((Article a, ApplicationUser u) => a.Author.User.Id == u.Id);
 
-        public static OwnerRequirement<UserProfile> Profile =
-            new OwnerRequirement<UserProfile>((UserProfile p, ApplicationUser u) => p.User.Id == u.Id);
+        public static OwnerRequirement<UserProfile, ApplicationUser> Profile =
+            new OwnerRequirement<UserProfile, ApplicationUser>((UserProfile p, ApplicationUser u) => p.User.Id == u.Id);
 
-        public static OwnerRequirement<ApplicationUser> User =
-            new OwnerRequirement<ApplicationUser>((ApplicationUser one, ApplicationUser another) => one.Id == another.Id);
+        public static OwnerRequirement<ApplicationUser, ApplicationUser> User =
+            new OwnerRequirement<ApplicationUser, ApplicationUser>((ApplicationUser one, ApplicationUser another) => one.Id == another.Id);
     }
 }

@@ -1,6 +1,7 @@
 ﻿using CoreBlog.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,22 +9,21 @@ using System.Threading.Tasks;
 
 namespace CoreBlog.Policies
 {
-    public class OwnerHandler<TModel> : AuthorizationHandler<OwnerRequirement<TModel>, TModel>
+    public class OwnerHandler<TModel, TUser> : AuthorizationHandler<OwnerRequirement<TModel, TUser>, TModel> where TUser : IdentityUser
     {
-        internal readonly UserManager<ApplicationUser> _userManager;
-        public OwnerHandler(UserManager<ApplicationUser> userManager)
+        internal readonly UserManager<TUser> _userManager;
+        public OwnerHandler(UserManager<TUser> userManager)
         {
             _userManager = userManager;
         }
 
         protected override Task HandleRequirementAsync(
             AuthorizationHandlerContext context,
-            OwnerRequirement<TModel> requirement,
+            OwnerRequirement<TModel, TUser> requirement,
             TModel resource)
         {
             var user = _userManager.GetUserAsync(context.User).GetAwaiter().GetResult();
-            var res = requirement.IsOwner(resource, user);
-            if(res)
+            if(requirement.IsOwner(resource, user))
             {
                 context.Succeed(requirement);
             }
